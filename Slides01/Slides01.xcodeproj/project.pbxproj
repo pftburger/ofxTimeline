@@ -13,6 +13,7 @@
 		168c43f69af6a8042ea0b13f08dfe5ff /* easing_terms_of_use.html in Sources */ = {isa = PBXBuildFile; fileRef = 9aaef50558bbdbeb5260fc353bfd02d1 /* easing_terms_of_use.html */; };
 		27765d1bff26bd9a6186915f24dfd27c /* ofxEasingCirc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = a4973cef438c8931b5e03e0a3b5d05b5 /* ofxEasingCirc.cpp */; };
 		32fc7731c1ef7b87e491c93d78c84b88 /* ofxTween.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 497f252390399fcf843297da0271f914 /* ofxTween.cpp */; };
+		33490FA7194E1DD200B55CD2 /* ofxTLSlides.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33490FA5194E1DD200B55CD2 /* ofxTLSlides.cpp */; };
 		3a02cdf226d01ebb6533d47f0bb42c5a /* ofxTLTicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = e8e616bc8e15dee74a54901f444f74a3 /* ofxTLTicker.cpp */; };
 		3b32d3b612022d0c5b272bdd39e8a60f /* ofxTLVideoTrack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16644a54427c234fd75cb89d48524e02 /* ofxTLVideoTrack.cpp */; };
 		46be87fc2c481a1eb41aed2a8b97fe96 /* ofxTLCurves.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7f47d144dc8b3e5cd297eaf57dc4f889 /* ofxTLCurves.cpp */; };
@@ -138,6 +139,8 @@
 		30666c151f907fce97822a8a38b276a6 /* ofxHotKeys_impl_win.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxHotKeys_impl_win.cpp; path = ../src/ofxHotKeys_impl_win.cpp; sourceTree = SOURCE_ROOT; };
 		3241b8bdc0b27471f8ee25d5a3db58b2 /* ofxTLPageTabs.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxTLPageTabs.h; path = ../src/ofxTLPageTabs.h; sourceTree = SOURCE_ROOT; };
 		32d83269769d4d7e74bf125b5842071d /* ofxTLEmptyTrack.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxTLEmptyTrack.cpp; path = ../src/ofxTLEmptyTrack.cpp; sourceTree = SOURCE_ROOT; };
+		33490FA5194E1DD200B55CD2 /* ofxTLSlides.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxTLSlides.cpp; path = ../src/ofxTLSlides.cpp; sourceTree = "<group>"; };
+		33490FA6194E1DD200B55CD2 /* ofxTLSlides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxTLSlides.h; path = ../src/ofxTLSlides.h; sourceTree = "<group>"; };
 		34aa5dbaf88c8b757b46d40d80b9047b /* ofxEasingCubic.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxEasingCubic.cpp; path = ../../ofxTween/src/Easings/ofxEasingCubic.cpp; sourceTree = SOURCE_ROOT; };
 		39833d65fff88a58c3cb8bdf62a80afb /* ofxTLLFO.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxTLLFO.cpp; path = ../src/ofxTLLFO.cpp; sourceTree = SOURCE_ROOT; };
 		3d0621ce540a64d8d27e0af7f83b3eb2 /* ofxTLTrackHeader.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxTLTrackHeader.h; path = ../src/ofxTLTrackHeader.h; sourceTree = SOURCE_ROOT; };
@@ -391,6 +394,8 @@
 		95ec4749e558adf7ecf154b0871e5f7e /* src */ = {
 			isa = PBXGroup;
 			children = (
+				33490FA5194E1DD200B55CD2 /* ofxTLSlides.cpp */,
+				33490FA6194E1DD200B55CD2 /* ofxTLSlides.h */,
 				6146999aa0b432590d07eb521d43e191 /* ofxHotKeys.h */,
 				4d892fbbb9e438c35b8c5ee430082e72 /* ofxHotKeys_impl_linux.cpp */,
 				2506aa6a6ef4e116e23a1c24c5fbd57f /* ofxHotKeys_impl_mac.mm */,
@@ -799,6 +804,7 @@
 				bcfdfc3681cf3552bcdb819e675b5dce /* ofxTLPageTabs.cpp in Sources */,
 				9e8ec2bf8bca13da057fa929463bbafb /* ofxTLSwitches.cpp in Sources */,
 				3a02cdf226d01ebb6533d47f0bb42c5a /* ofxTLTicker.cpp in Sources */,
+				33490FA7194E1DD200B55CD2 /* ofxTLSlides.cpp in Sources */,
 				f4a426f97ee8f1a3ead2a8f00212b48a /* ofxTLTrack.cpp in Sources */,
 				e6b21161287eea55fa4ea984beef0d72 /* ofxTLTrackHeader.cpp in Sources */,
 				65b24cd86db2ed8edd3385ac3e4a4783 /* ofxTLVideoThumb.cpp in Sources */,

@@ -60,6 +60,8 @@ void testApp::setup(){
     //They are only useful when listening to bangFired() events
     //so that you know when one has passed
 	timeline.addColors("Colors");
+    
+    timeline.addSlides("Images");
 
     //setting framebased to true results in the timeline never skipping frames
     //and also speeding up with the 
