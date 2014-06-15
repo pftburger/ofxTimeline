@@ -544,6 +544,18 @@ void ofxTLKeyframes::mouseReleased(ofMouseEventArgs& args, long millis){
 	createNewOnMouseup = false;
 }
 
+//New method for catching dropped files
+void ofxTLKeyframes::mouseFileDropped(ofDragInfo& info, long millis){
+
+    selectedKeyframe = newKeyframe();
+    setKeyframeTime(selectedKeyframe,millis);
+    selectedKeyframe->value = screenYToValue(info.position.y);
+    keyframes.push_back(selectedKeyframe);
+    selectedKeyframes.push_back(selectedKeyframe);
+    updateKeyframeSort();
+    timeline->flagTrackModified(this);
+}
+
 void ofxTLKeyframes::setKeyframeTime(ofxTLKeyframe* key, unsigned long long newTime){
 	key->previousTime = key->time;
 	key->time = newTime;

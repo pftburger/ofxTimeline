@@ -59,6 +59,7 @@ class ofxTLKeyframes : public ofxTLTrack
 	virtual void mouseMoved(ofMouseEventArgs& args, long millis);
 	virtual void mouseDragged(ofMouseEventArgs& args, long millis);
 	virtual void mouseReleased(ofMouseEventArgs& args, long millis);
+    virtual void mouseFileDropped(ofDragInfo& info, long millis);
 	
 	virtual void nudgeBy(ofVec2f nudgePercent);
 	

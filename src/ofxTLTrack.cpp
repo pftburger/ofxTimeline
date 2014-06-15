@@ -242,6 +242,12 @@ void ofxTLTrack::_mouseReleased(ofMouseEventArgs& args, long millis){
 	    active = false;
     }
 }
+void ofxTLTrack::_mouseFileDropped(ofDragInfo& info, long millis){
+    if(enabled){
+        mouseFileDropped(info, millis);
+	    active = false;
+    }
+}
 
 void ofxTLTrack::gainedFocus(){
 	focused = true;

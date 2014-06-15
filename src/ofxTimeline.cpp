@@ -1129,6 +1129,8 @@ void ofxTimeline::enableEvents() {
 		ofAddListener(ofEvents().keyPressed, this, &ofxTimeline::keyPressed);
 		ofAddListener(ofEvents().keyReleased, this, &ofxTimeline::keyReleased);
 		ofAddListener(ofEvents().windowResized, this, &ofxTimeline::windowResized);
+        
+        ofAddListener(ofEvents().fileDragEvent, this, &ofxTimeline::mouseFileDropped);
 		
 		usingEvents = true;
 	}
@@ -1144,6 +1146,8 @@ void ofxTimeline::disableEvents() {
 		ofRemoveListener(ofEvents().keyPressed, this, &ofxTimeline::keyPressed);
 		ofRemoveListener(ofEvents().keyReleased, this, &ofxTimeline::keyReleased);
 		ofRemoveListener(ofEvents().windowResized, this, &ofxTimeline::windowResized);
+        
+		ofRemoveListener(ofEvents().fileDragEvent, this, &ofxTimeline::mouseFileDropped);
 		
 		usingEvents = false;
 	}
@@ -1231,7 +1235,7 @@ void ofxTimeline::mouseReleased(ofMouseEventArgs& args){
     long millis = screenXToMillis(args.x);
     
     dragAnchorSet = false;
-
+    
     if(modalTrack != NULL){
     	modalTrack->mouseReleased(args, millis);
 	}
@@ -1241,6 +1245,29 @@ void ofxTimeline::mouseReleased(ofMouseEventArgs& args){
 		tabs->mouseReleased(args);
 		currentPage->mouseReleased(args, millis);
 		zoomer->mouseReleased(args);
+	}
+    
+	pushUndoStack();
+}
+//New file drag event handler
+void ofxTimeline::mouseFileDropped(ofDragInfo& info){
+    
+	if(!isShowing){
+		return;
+	}
+	
+    long millis = screenXToMillis(info.position.x);
+    
+    //dragAnchorSet = false; //dont know what that does?
+    
+    //Shouldnt need to send info to anything other than inoutTrack, so ignoring the rest.
+    if(modalTrack != NULL){
+        //um, do nothing here, modal stuff shouldnt be taking file drops.... for now! MWAHAHAHAHA
+	}
+    else{
+		//inoutTrack->mouseFileDropped(info);
+		currentPage->mouseFileDropped(info, millis);
+
 	}
     
 	pushUndoStack();
@@ -1934,6 +1961,17 @@ ofxTLSlides* ofxTimeline::addSlides(string trackName){
     
 }
 
+ofImage* ofxTimeline::getSlide(string trackName){
+    if(!hasTrack(trackName)){
+        ofLogError("ofxTimeline -- Couldn't find color track " + trackName);
+        ofImage* blank = new ofImage();
+        blank->allocate(100, 100, OF_IMAGE_COLOR);
+        return blank;
+    }
+    ofxTLSlides* slides = (ofxTLSlides*)trackNameToPage[trackName]->getTrack(trackName);
+    return slides->getSlideCurrent();
+    
+}
 
 //*** IMAGE SEQUENCE DOESN'T WORK **///
 ofxTLImageSequence* ofxTimeline::addImageSequence(string trackName){
@@ -1951,6 +1989,7 @@ ofxTLImageSequence* ofxTimeline::addImageSequence(string trackName, string direc
 	addTrack(confirmedUniqueName(trackName), newImageSequence);
 	return newImageSequence;	
 }
+
 
 
 ofImage* ofxTimeline::getImage(string trackName){

@@ -48,7 +48,7 @@ void ofxTLSlides::draw(){
 	
 	ofFill();
 	//show the current color as background based on the playhead position
-	ofSetColor(getCurrentColor(), 100);
+	ofSetColor(getColorCurrent(), 100);
 	ofRect(bounds);
     
 	for(int i = 0; i < keyframes.size(); i++){
@@ -70,13 +70,17 @@ void ofxTLSlides::draw(){
 			ofCircle(screenPoint, 7);
 			ofSetColor(Slide->color);
 			ofCircle(screenPoint, 5);
+            ofSetColor(255);
+            Slide->image.draw(screenPoint.x, screenPoint.y, 100, (Slide->height/Slide->width*100));
+            
+            
 		}
 	}
 	
 	ofPopStyle();
 }
 
-ofColor ofxTLSlides::getCurrentColor(){
+ofColor ofxTLSlides::getColorCurrent(){
 	return getColorAtTime(timeline->getCurrentTimeMillis());
 }
 
@@ -108,6 +112,37 @@ ofColor ofxTLSlides::getColorAtTime(unsigned long long sampleTime){
 	}
 }
 
+ofImage* ofxTLSlides::getSlideCurrent(){
+	return getSlideAtTime(timeline->getCurrentTimeMillis());
+}
+
+ofImage* ofxTLSlides::getSlideAtTime(unsigned long long sampleTime){
+    //return black if there are no frames
+	if(keyframes.size() == 0){
+        ofImage* blank = new ofImage();
+        blank->allocate(100, 100, OF_IMAGE_COLOR);
+        return blank;
+    }
+    
+	//just one, or sampling before the first we can just return the first
+	if(keyframes.size() == 1 || keyframes[0]->time >= sampleTime){
+		return &((ofxTLSlide*)keyframes[0])->image;
+	}
+	//sampling after the last we return the last
+	if(keyframes[keyframes.size()-1]->time <= sampleTime){
+		return &((ofxTLSlide*)keyframes[keyframes.size()-1])->image;
+	}
+    
+    //now we are somewhere in between, search
+	//keyframes will always be sorted
+	for(int i = 1; i < keyframes.size(); i++){
+		if(keyframes[i]->time >= sampleTime){
+			return &((ofxTLSlide*)keyframes[i-1])->image;
+		}
+	}
+    
+}
+
 bool ofxTLSlides::mousePressed(ofMouseEventArgs& args, long millis){
 	//for the general behavior call the super class
 	//or you can do your own thing. Return true if the click caused an item to
@@ -124,7 +159,24 @@ void ofxTLSlides::mouseDragged(ofMouseEventArgs& args, long millis){
 }
 
 void ofxTLSlides::mouseReleased(ofMouseEventArgs& args, long millis){
-	ofxTLKeyframes::mouseReleased(args, millis);
+	keysAreDraggable = false;
+    if(keysDidDrag){
+		//reset these caches because they may no longer be valid
+		lastKeyframeIndex = 1;
+		lastSampleTime = 0;
+        timeline->flagTrackModified(this);
+    }
+}
+
+void ofxTLSlides::mouseFileDropped(ofDragInfo& info, long millis){
+    
+    selectedKeyframe = newKeyframe(info);
+    setKeyframeTime(selectedKeyframe,millis);
+    selectedKeyframe->value = screenYToValue(info.position.y);
+    keyframes.push_back(selectedKeyframe);
+    selectedKeyframes.push_back(selectedKeyframe);
+    updateKeyframeSort();
+    timeline->flagTrackModified(this);
 }
 
 //keys pressed events, and nuding from arrow keys with normalized nudge amount 0 - 1.0
@@ -141,10 +193,14 @@ string ofxTLSlides::getTrackType(){
 	return "Slides";
 }
 
-ofxTLKeyframe* ofxTLSlides::newKeyframe(){
+ofxTLKeyframe* ofxTLSlides::newKeyframe(ofDragInfo& info){
 	//return our type of keyframe, stored in the parent class
 	ofxTLSlide* newKey = new ofxTLSlide();
-	newKey->color = ofColor(ofRandom(255),ofRandom(255),ofRandom(255));
+    newKey->color = ofColor(0,0,0);
+    newKey->filePath = info.files[0];
+    newKey->image.loadImage(newKey->filePath);
+    newKey->width = newKey->image.getWidth();
+    newKey->height = newKey->image.getHeight();
 	return newKey;
 }
 
@@ -153,6 +209,11 @@ void ofxTLSlides::restoreKeyframe(ofxTLKeyframe* key, ofxXmlSettings& xmlStore){
 	emptyKey->color = ofColor(xmlStore.getValue("r", 255),
 							  xmlStore.getValue("g", 255),
 							  xmlStore.getValue("b", 255));
+    emptyKey->filePath = xmlStore.getValue("filePath","");
+    emptyKey->image.loadImage(emptyKey->filePath);
+    emptyKey->width = emptyKey->image.getWidth();
+    emptyKey->height = emptyKey->image.getHeight();
+    
 }
 
 void ofxTLSlides::storeKeyframe(ofxTLKeyframe* key, ofxXmlSettings& xmlStore){
@@ -160,6 +221,7 @@ void ofxTLSlides::storeKeyframe(ofxTLKeyframe* key, ofxXmlSettings& xmlStore){
 	xmlStore.addValue("r",emptyKey->color.r);
 	xmlStore.addValue("g",emptyKey->color.g);
 	xmlStore.addValue("b",emptyKey->color.b);
+    xmlStore.addValue("filePath", emptyKey->filePath);
 }
 
 ofxTLKeyframe* ofxTLSlides::keyframeAtScreenpoint(ofVec2f p){

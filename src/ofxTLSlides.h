@@ -42,6 +42,11 @@ public:
 	//an example of how to add more information into this keyframe
 	//just make some random colors
 	ofColor color;
+    string filePath;
+    ofPoint dropPosition;
+    ofImage image;
+    int width;
+    int height;
 };
 
 //Just a simple useless random color keyframer
@@ -63,13 +68,17 @@ public:
 	virtual void mouseMoved(ofMouseEventArgs& args, long millis);
 	virtual void mouseDragged(ofMouseEventArgs& args, long millis);
 	virtual void mouseReleased(ofMouseEventArgs& args, long millis);
+    
+    virtual void mouseFileDropped(ofDragInfo& info, long millis);
 	
 	//keys pressed events, and nuding from arrow keys with normalized nudge amount 0 - 1.0
 	virtual void keyPressed(ofKeyEventArgs& args);
     
 	//how to get colors from our example, linearly interpolated RGB
-	ofColor getCurrentColor();
+	ofColor getColorCurrent();
 	ofColor getColorAtTime(unsigned long long millis);
+    ofImage* getSlideCurrent();
+    ofImage* getSlideAtTime(unsigned long long millis);
 	
 	//time range contains MIN and MAX time in milliseconds
 	//valueRange is 0 at the bottom of the track, and 1 at the top
@@ -83,7 +92,7 @@ public:
 protected:
 	//always return the type for your track, in our case ofxTLSlide;
 	//this will enusre that all keyframe objects passed to this class are of this type
-	virtual ofxTLKeyframe* newKeyframe();
+	virtual ofxTLKeyframe* newKeyframe(ofDragInfo& info);
 	//load this keyframe out of xml, which is alraedy pushed to the right level
 	//only need to save custom properties that our subclass adds
 	virtual void restoreKeyframe(ofxTLKeyframe* key, ofxXmlSettings& xmlStore);

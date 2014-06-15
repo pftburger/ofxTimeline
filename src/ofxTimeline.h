@@ -147,6 +147,9 @@ class ofxTimeline : ofThread {
 	virtual void mouseMoved(ofMouseEventArgs& args);
 	virtual void mouseDragged(ofMouseEventArgs& args);
 	virtual void mouseReleased(ofMouseEventArgs& args);
+    //added fileDrag event handler
+    virtual void mouseFileDropped(ofDragInfo& info);
+    
 	virtual void keyPressed(ofKeyEventArgs& args);
 	virtual void keyReleased(ofKeyEventArgs& args);
 	virtual void windowResized(ofResizeEventArgs& args);
@@ -383,6 +386,7 @@ class ofxTimeline : ofThread {
     
     //Custom slide track
     ofxTLSlides* addSlides(string trackName);
+    ofImage* getSlide(string trackName);
     
     
     //TODO: remove image sequence from the core? ... or fix it up.

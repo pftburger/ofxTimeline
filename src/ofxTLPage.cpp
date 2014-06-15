@@ -342,6 +342,34 @@ void ofxTLPage::mouseReleased(ofMouseEventArgs& args, long millis){
 	draggingSelectionRectangle = false;
 }
 
+//File drop stuff
+void  ofxTLPage::mouseFileDropped(ofDragInfo& info, long millis){
+ 	droppedInside = trackContainerRect.inside(info.position.x, info.position.y);
+    draggingSelectionRectangle = false; //shoudlnt need this, but who knows
+	ofxTLTrack* newFocus = NULL;
+	if(droppedInside){
+		headerHasFocus = false;
+		footerIsDragging = false;
+		for(int i = 0; i < headers.size(); i++){
+            bool dropIsInTrack = tracks[headers[i]->name]->getDrawRect().inside(info.position.x,info.position.y);
+            if(dropIsInTrack){
+                newFocus = tracks[ headers[i]->name ];
+                tracks[headers[i]->name]->_mouseFileDropped(info, millis);
+            }
+		}
+	}
+    
+
+    if(newFocus != NULL && newFocus != focusedTrack){
+        if(focusedTrack != NULL){
+            focusedTrack->lostFocus();
+        }
+        newFocus->gainedFocus();
+        focusedTrack = newFocus;
+    }
+
+}
+
 void ofxTLPage::setDragOffsetTime(long offsetMillis){
 	millisecondDragOffset = offsetMillis;
 }

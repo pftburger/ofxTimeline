@@ -90,6 +90,7 @@ class ofxTLTrack
     void _mouseMoved(ofMouseEventArgs& args, long millis);
     void _mouseDragged(ofMouseEventArgs& args, long millis);
     void _mouseReleased(ofMouseEventArgs& args, long millis);
+    void _mouseFileDropped(ofDragInfo& info, long millis);
 
 	//standard events to be implement in subclasses
 	//mousePressed returns true if the click activated the track in a way that should maintain attention
@@ -98,6 +99,7 @@ class ofxTLTrack
 	virtual void mouseMoved(ofMouseEventArgs& args, long millis){}
     virtual void mouseDragged(ofMouseEventArgs& args, long millis){};
 	virtual void mouseReleased(ofMouseEventArgs& args, long mllis){};
+	virtual void mouseFileDropped(ofDragInfo& info, long mllis){};
 
 	//if you override playbackStarted() you have to call super ofxTLTrack's method as well
     virtual void playbackStarted(ofxTLPlaybackEventArgs& args);

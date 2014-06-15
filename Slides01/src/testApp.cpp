@@ -67,6 +67,8 @@ void testApp::setup(){
     //and also speeding up with the 
     //try setting this to true and see the difference
     timeline.setFrameBased(false);
+    
+    timeline.setAutosave(false);
 	
 }
 
@@ -93,6 +95,9 @@ void testApp::draw(){
 	ofRotate(timeline.getValue("Rotate Y"), 0, 1, 0);
 	
 	ofBox(0,0,0, 200);
+    ofSetColor(255);
+    timeline.getSlide("Images")->draw(0,0);
+    
 	
 	ofPopMatrix();
 
