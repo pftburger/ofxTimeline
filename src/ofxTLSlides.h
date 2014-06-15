@@ -37,8 +37,8 @@
 
 //custom keyframe container
 //inherits time and value from the super class
-class ofxTLEmptyKeyframe : public ofxTLKeyframe {
-  public:
+class ofxTLSlide : public ofxTLKeyframe {
+public:
 	//an example of how to add more information into this keyframe
 	//just make some random colors
 	ofColor color;
@@ -46,11 +46,11 @@ class ofxTLEmptyKeyframe : public ofxTLKeyframe {
 
 //Just a simple useless random color keyframer
 //to show how to create a custom keyframer
-class ofxTLEmptyKeyframes : public ofxTLKeyframes {
-  public:
-	ofxTLEmptyKeyframes();
-	virtual ~ofxTLEmptyKeyframes();
-
+class ofxTLSlides : public ofxTLKeyframes {
+public:
+	ofxTLSlides();
+	virtual ~ofxTLSlides();
+    
 	//draw your keyframes
 	//some default style is done before this
 	virtual void draw();
@@ -66,7 +66,7 @@ class ofxTLEmptyKeyframes : public ofxTLKeyframes {
 	
 	//keys pressed events, and nuding from arrow keys with normalized nudge amount 0 - 1.0
 	virtual void keyPressed(ofKeyEventArgs& args);
-
+    
 	//how to get colors from our example, linearly interpolated RGB
 	ofColor getCurrentColor();
 	ofColor getColorAtTime(unsigned long long millis);
@@ -76,12 +76,12 @@ class ofxTLEmptyKeyframes : public ofxTLKeyframes {
 	//if you have anything other than small dots keyframes you'll want to override
 	//the default behavior
     virtual void regionSelected(ofLongRange timeRange, ofRange valueRange);
-
+    
 	//return a custom name for this keyframe
 	virtual string getTrackType();
-
-  protected:
-	//always return the type for your track, in our case ofxTLEmptyKeyframe;
+    
+protected:
+	//always return the type for your track, in our case ofxTLSlide;
 	//this will enusre that all keyframe objects passed to this class are of this type
 	virtual ofxTLKeyframe* newKeyframe();
 	//load this keyframe out of xml, which is alraedy pushed to the right level
@@ -89,7 +89,7 @@ class ofxTLEmptyKeyframes : public ofxTLKeyframes {
 	virtual void restoreKeyframe(ofxTLKeyframe* key, ofxXmlSettings& xmlStore);
 	//save custom properties into the xml
     virtual void storeKeyframe(ofxTLKeyframe* key, ofxXmlSettings& xmlStore);
-
+    
 	//return keyframe at this mouse point if you have non circular keyframes
 	virtual ofxTLKeyframe* keyframeAtScreenpoint(ofVec2f p);
 	

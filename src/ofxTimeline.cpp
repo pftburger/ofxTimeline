@@ -1925,6 +1925,16 @@ string ofxTimeline::getDefaultColorPalettePath(){
 	return defaultPalettePath;
 }
 
+//Custom Slides track
+ofxTLSlides* ofxTimeline::addSlides(string trackName){
+    ofxTLSlides* newSlides = new ofxTLSlides();
+	newSlides->setCreatedByTimeline(true);
+	addTrack(confirmedUniqueName(trackName), newSlides);
+	return newSlides;
+    
+}
+
+
 //*** IMAGE SEQUENCE DOESN'T WORK **///
 ofxTLImageSequence* ofxTimeline::addImageSequence(string trackName){
 	ofFileDialogResult result = ofSystemLoadDialog("Load Sequence", true);

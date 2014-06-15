@@ -68,6 +68,8 @@
 #include "ofxTLImageSequence.h"
 #include "ofxTLColors.h"
 #include "ofxTLLFO.h"
+//Custom Slides track
+#include "ofxTLSlides.h"
 
 #ifdef TIMELINE_VIDEO_INCLUDED
 #include "ofxTLVideoTrack.h"
@@ -377,6 +379,12 @@ class ofxTimeline : ofThread {
 	ofColor getColorAtMillis(string name, unsigned long long millis);
 	
 	string getDefaultColorPalettePath();
+    
+    
+    //Custom slide track
+    ofxTLSlides* addSlides(string trackName);
+    
+    
     //TODO: remove image sequence from the core? ... or fix it up.
 	//*IMAGE SEQUENCE DOES NOT WORK*
 	ofxTLImageSequence* addImageSequence(string name);
